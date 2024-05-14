@@ -1,5 +1,5 @@
 // judgeController.js
-const judgeModel = require("../model/judgeModel");
+const judgeModel = require("../model/registerJudgeModel");
 
 async function addJudge(req, res) {
   try {

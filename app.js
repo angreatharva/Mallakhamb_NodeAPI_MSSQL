@@ -2,8 +2,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const judgeController = require("./controller/judgeController");
+const judgeController = require("./controller/registerJudgeController");
 const authController = require("./controller/loginController");
+const teamController = require("./controller/registerTeamsController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ app.options("*", cors());
 
 // Define routes
 app.post("/registerJudge", judgeController.addJudge);
+app.post("/registerTeam", teamController.registerTeam);
 app.post("/login", authController.login);
 
 app.listen(port, () => console.log(`The app is running on Port : ${port}.`));
