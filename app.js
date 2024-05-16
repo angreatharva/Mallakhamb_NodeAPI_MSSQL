@@ -5,6 +5,7 @@ const cors = require("cors");
 const judgeController = require("./controller/registerJudgeController");
 const authController = require("./controller/loginController");
 const teamController = require("./controller/registerTeamsController");
+const getTeamListController = require("./controller/getTemListController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,5 +19,6 @@ app.options("*", cors());
 app.post("/registerJudge", judgeController.addJudge);
 app.post("/registerTeam", teamController.registerTeam);
 app.post("/login", authController.login);
+app.get("/getTeamList", getTeamListController.getTeamList);
 
 app.listen(port, () => console.log(`The app is running on Port : ${port}.`));
