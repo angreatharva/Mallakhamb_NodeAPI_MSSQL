@@ -15,7 +15,7 @@ async function registerTeam(req, res) {
       above18,
     } = req.body;
 
-    await teamModel.registerTeam(
+    const result = await teamModel.registerTeam(
       teamName,
       coachName,
       contactNo,
@@ -27,22 +27,18 @@ async function registerTeam(req, res) {
       above18
     );
 
-    res.status(200).json({
-      status: 200,
-      message: "Judge added successfully",
-      teamName: teamName,
-      emailAddress: emailAddress,
-      gender: gender,
-    });
-
-    // if (result.success) {
-    //   res.status(201).json({ message: "Team registered successfully" });
-    // } else {
-    //   res.status(500).json({ error: "Failed to register team" });
-    // }
+    if (result.success) {
+      res.status(200).json({ message: "Team registered successfully" });
+    } else {
+      res.status(500).json({ error: "Failed to register team" });
+    }
   } catch (error) {
-    console.error("Error registering team:", error.message);
-    res.status(500).json({ error: "Internal server error" });
+    if (error.message.includes("already exists")) {
+      res.status(409).json({ error: error.message });
+    } else {
+      console.error("Error registering team:", error.message);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 }
 
