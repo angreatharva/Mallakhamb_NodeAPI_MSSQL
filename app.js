@@ -6,6 +6,7 @@ const judgeController = require("./controller/registerJudgeController");
 const authController = require("./controller/loginController");
 const teamController = require("./controller/registerTeamsController");
 const getTeamListController = require("./controller/getTemListController");
+const playerController = require("./controller/playersDataController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,5 +21,6 @@ app.post("/registerJudge", judgeController.addJudge);
 app.post("/registerTeam", teamController.registerTeam);
 app.post("/login", authController.login);
 app.get("/getTeamList", getTeamListController.getTeamList);
+app.get("/playersData", playerController.getPlayersData);
 
 app.listen(port, () => console.log(`The app is running on Port : ${port}.`));
