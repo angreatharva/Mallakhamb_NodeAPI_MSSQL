@@ -5,14 +5,45 @@ async function getTeamList(req, res) {
     const { ageGroup } = req.query;
     const teams = await teamModel.getTeamList(ageGroup);
 
-    // Transform the teams data to replace 'ageGroup' with 'players'
-    const transformedTeams = teams.map((team) => {
-      const { ageGroup, ...rest } = team;
-      return {
-        ...rest,
-        players: ageGroup,
-      };
-    });
+    const teamMap = teams.reduce((acc, team) => {
+      const {
+        teamId,
+        teamName,
+        coachName,
+        contactNo,
+        emailAddress,
+        gender,
+        playerName,
+        playerDob,
+        playerAge,
+        totalMarks,
+        avgMarks,
+      } = team;
+
+      if (!acc[teamId]) {
+        acc[teamId] = {
+          teamId,
+          teamName,
+          coachName,
+          contactNo,
+          emailAddress,
+          gender,
+          playerList: [],
+        };
+      }
+
+      acc[teamId].playerList.push({
+        playerName,
+        playerDob,
+        playerAge,
+        totalMarks,
+        avgMarks,
+      });
+
+      return acc;
+    }, {});
+
+    const transformedTeams = Object.values(teamMap);
 
     res.status(200).json(transformedTeams);
   } catch (error) {
